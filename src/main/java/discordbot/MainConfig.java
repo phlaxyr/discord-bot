@@ -10,4 +10,8 @@ public interface MainConfig extends Config {
 	
 	@DefaultValue("!")
 	String prefix();
+	
+	String adminChannelID();
+	
+	String pollsChannelID();
 }

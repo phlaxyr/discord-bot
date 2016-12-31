@@ -50,6 +50,13 @@ public class BotMain {
 		
 		register = new CommandRegistrar();
 		jda.addEventListener(register);
+		
+		registerCommands();
+	}
+	
+	private static void registerCommands() {
+		register.registerCommand(new PingCommand());
+		register.registerCommand(new MakepollCommand());
 	}
 
 }
