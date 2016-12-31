@@ -10,6 +10,9 @@ cobertura {
 }
 
 apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'discordbot.BotMain'
 
 repositories {
     // Use 'jcenter' for resolving your dependencies.
@@ -21,6 +24,8 @@ dependencies {
     compile group: 'com.google.code.gson', name: 'gson', version: '1.7.2'
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.22'
     compile 'net.dv8tion:JDA:3.0.BETA2_108'
+	compile 'org.aeonbits.owner:owner:1.0.8'
+	compile 'commons-io:commons-io:2.5'
 
     testCompile 'junit:junit:4.12'
 }
