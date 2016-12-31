@@ -55,8 +55,13 @@ public class BotMain {
 	}
 	
 	private static void registerCommands() {
+		// Ping
 		register.registerCommand(new PingCommand());
-		register.registerCommand(new MakepollCommand());
+		
+		// Poll system
+		MakepollCommand mpc;
+		register.registerCommand(mpc = new MakepollCommand());
+		register.registerCommand(new VoteCommand(mpc.pf));
 	}
 
 }
