@@ -1,12 +1,35 @@
 package discordbot;
 
+import java.io.File;
 import java.util.Arrays;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import static org.junit.Assert.*;
 
 public class TestPoll {
+	@Rule
+	public TemporaryFolder tf = new TemporaryFolder();
+	
+	@Test
+	public void testFactorySaveLoad() throws Exception {
+		
+		File pollsfile = tf.newFile("polls-tfsl.json");
+		
+		// Write
+		PollFactory pf = new PollFactory();
+		pf.addPoll(new Poll("poll a", "<msgid>", new String[] {"option a", "option b", "option c"}));
+		pf.addVoter("voter", 0, 2);
+		pf.save(pollsfile);
+		
+		// Read
+		PollFactory newpf = new PollFactory();
+		newpf.load(pollsfile);
+		assertTrue(newpf.getPolls()[0].getPollchoices()[1].alreadyVoted("voter"));
+	}
+	
 	@Test
 	public void testPollAdd() {
 		Poll p = new Poll("", "", new String[]{"option a", "option b", "option c"});

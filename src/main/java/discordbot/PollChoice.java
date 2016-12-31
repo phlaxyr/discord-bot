@@ -1,6 +1,5 @@
 package discordbot;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -9,9 +8,7 @@ import java.util.Arrays;
  * @author minerguy31
  *
  */
-public class PollChoice implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
+public class PollChoice {
 	private String name;
 	private String[] voters = new String[] {};
 	

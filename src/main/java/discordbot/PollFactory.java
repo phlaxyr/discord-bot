@@ -2,7 +2,6 @@ package discordbot;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,7 +15,7 @@ import com.google.gson.stream.JsonWriter;
 
 public class PollFactory {
 	private Poll[] polls = {};
-	private Gson gson = new Gson();
+	private transient Gson gson = new Gson();
 	private static final Type jsontype = new TypeToken<PollFactory>(){}.getType();
 	
 	public PollFactory() {
@@ -24,11 +23,20 @@ public class PollFactory {
 	}
 	
 	public void save(File pollsfile) throws JsonIOException, IOException {
-		gson.toJson(this, jsontype, new JsonWriter(new FileWriter(pollsfile)));
+		JsonWriter jw = new JsonWriter(new FileWriter(pollsfile));
+		gson.toJson(this, jsontype, jw);
+		jw.flush();
+		jw.close();
 	}
 	
-	public void load(File pollsfile) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
-		gson.fromJson(new BufferedReader(new FileReader(pollsfile)), PollFactory.class);
+	public void load(File pollsfile) throws JsonSyntaxException, JsonIOException, IOException {
+		BufferedReader jr = new BufferedReader(new FileReader(pollsfile));
+		
+		PollFactory pf = gson.fromJson(jr, PollFactory.class);
+		
+		this.polls = pf.polls;
+		
+		jr.close();
 	}
 	
 	public void addPoll(Poll p) {
@@ -36,6 +44,10 @@ public class PollFactory {
 		System.arraycopy(polls, 0, newpolls, 0, polls.length);
 		newpolls[polls.length] = p;
 		polls = newpolls;
+	}
+	
+	public void addVoter(String voterid, int pollnum, int optionnum) {
+		polls[pollnum].addVoter(voterid, optionnum);;
 	}
 	
 	// POJO stuff

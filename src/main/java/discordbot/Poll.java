@@ -1,16 +1,12 @@
 package discordbot;
 
-import java.io.Serializable;
-
 /**
  * A Bean for GSON
  * 
  * @author minerguy31
  *
  */
-public class Poll implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
+public class Poll {
 	private String name;
 	private boolean isopen = true;
 	private PollChoice[] pollchoices;
