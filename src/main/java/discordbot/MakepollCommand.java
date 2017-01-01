@@ -16,7 +16,8 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public class MakepollCommand implements BotCommand {
 
 	PollFactory pf = new PollFactory();
-	
+
+	@CoverageIgnore
 	public MakepollCommand() {
 		if(new File("polls.json").exists())
 			try {
@@ -27,11 +28,13 @@ public class MakepollCommand implements BotCommand {
 	}
 	
 	@Override
+	@CoverageIgnore
 	public String getCommand() {
 		return "makepoll";
 	}
 
 	@Override
+	@CoverageIgnore
 	public void run(MessageReceivedEvent e) {
 		if(!e.getChannel().getId().equals(BotMain.cfg.adminChannelID()))
 			return;

@@ -73,6 +73,7 @@ public class Poll {
 		return total;
 	}
 	
+	@CoverageIgnore
 	public String toString(int pollnum) {
 		int total = getNumVotes();
 		

@@ -72,6 +72,7 @@ public class PollChoice {
 		this.name = name;
 	}
 	
+	@CoverageIgnore
 	public String toString(int optionnum, int totalvotes) {
 		final int width = 20;
 		StringBuilder sb = new StringBuilder(optionnum + ". [");
