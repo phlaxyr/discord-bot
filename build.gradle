@@ -6,7 +6,7 @@ plugins {
 cobertura {
 	coverageFormats = ['html', 'xml']
 	coverageIgnoreTrivial = true
-	coverageIgnoreMethodAnnotations = ['CoverageIgnore']
+	coverageIgnoreMethodAnnotations = ['discordbot.CoverageIgnore']
 }
 
 apply plugin: 'java'
