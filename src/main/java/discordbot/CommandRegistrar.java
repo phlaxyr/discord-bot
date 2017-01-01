@@ -9,19 +9,23 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 public class CommandRegistrar extends ListenerAdapter {
 	Map<String, BotCommand> commands = new HashMap<>();
 	
+	private String prefix;
+	
+	public CommandRegistrar(String prefix) {
+		this.prefix = prefix;
+	}
+	
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 		String message = event.getMessage().getRawContent();
 		
 		// If it doesn't begin with prefix, ignore it
-		if(!message.startsWith(BotMain.cfg.prefix()))
+		if(!message.startsWith(prefix))
 			return;
 		
 		// Chop off the prefix and the rest of the command
-		String command = message.substring(BotMain.cfg.prefix().length()).split(" ")[0];
-
-		BotMain.log.info(command);
-		BotMain.log.info(commands.toString());
+		String command = message.substring(prefix.length()).split(" ")[0];
+		
 		commands.get(command).run(event);
 	}
 	

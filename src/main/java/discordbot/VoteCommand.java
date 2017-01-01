@@ -26,12 +26,18 @@ public class VoteCommand implements BotCommand {
 		
 		String[] parts = e.getMessage().getContent().split(" ");
 		
+		if(parts.length == 1) {
+			e.getChannel().sendMessage("Usage: !vote <poll#> <option#>");
+			return;
+		}
+		
 		int pollnum = Integer.parseInt(parts[1]);		
 		int optnum = Integer.parseInt(parts[2]);
 		
 		pf.addVoter(userid, pollnum, optnum);
 		try {
 			pf.save(new File("polls.json"));
+			e.getChannel().sendMessage("Vote successfully counted!");
 		} catch (JsonIOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

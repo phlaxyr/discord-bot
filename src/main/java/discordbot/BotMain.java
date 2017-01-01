@@ -48,7 +48,7 @@ public class BotMain {
 			log.error("Please verify that the bot token in the config file is correct. ");
 		}
 		
-		register = new CommandRegistrar();
+		register = new CommandRegistrar(cfg.prefix());
 		jda.addEventListener(register);
 		
 		registerCommands();
