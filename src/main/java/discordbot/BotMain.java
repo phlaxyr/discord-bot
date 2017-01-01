@@ -65,6 +65,7 @@ public class BotMain {
 		MakepollCommand mpc;
 		register.registerCommand(mpc = new MakepollCommand());
 		register.registerCommand(new VoteCommand(mpc.pf));
+		register.registerCommand(new ClosepollCommand(mpc.pf));
 	}
 
 }

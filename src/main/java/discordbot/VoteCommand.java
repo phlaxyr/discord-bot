@@ -27,12 +27,17 @@ public class VoteCommand implements BotCommand {
 		String[] parts = e.getMessage().getContent().split(" ");
 		
 		if(parts.length == 1) {
-			e.getChannel().sendMessage("Usage: !vote <poll#> <option#>").queue();
+			e.getChannel().sendMessage("Usage: vote <poll#> <option#>").queue();
 			return;
 		}
 		
 		int pollnum = Integer.parseInt(parts[1]);		
 		int optnum = Integer.parseInt(parts[2]);
+		
+		if(!pf.getPolls()[pollnum].isIsopen()) {
+			e.getChannel().sendMessage("Sorry, this poll is now closed.").queue();
+			return;
+		}
 		
 		pf.addVoter(userid, pollnum, optnum);
 		try {
