@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -15,7 +16,7 @@ import com.google.gson.stream.JsonWriter;
 
 public class PollFactory {
 	private Poll[] polls = {};
-	private transient Gson gson = new Gson();
+	private transient Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	private static final Type jsontype = new TypeToken<PollFactory>(){}.getType();
 	
 	public PollFactory() {

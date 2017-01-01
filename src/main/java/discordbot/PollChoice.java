@@ -74,7 +74,7 @@ public class PollChoice {
 	
 	public String toString(int optionnum, int totalvotes) {
 		final int width = 20;
-		StringBuilder sb = new StringBuilder(optionnum + ". " + name + " [");
+		StringBuilder sb = new StringBuilder(optionnum + ". [");
 		double percent = totalvotes != 0 ? ((double)getNumVoters() / (double)totalvotes) : 0;
 		int num = (int) Math.round(percent * width);
 		for(int i = 0; i < num; i++)
@@ -82,7 +82,7 @@ public class PollChoice {
 		for(int i = num; i < width; i++)
 			sb.append(" ");
 		
-		sb.append("] (" + getNumVoters() + " votes)");
+		sb.append("] (" + getNumVoters() + " votes) - " + name);
 		
 		return sb.toString();
 	}
