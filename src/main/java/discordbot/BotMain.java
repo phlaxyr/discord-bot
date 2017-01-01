@@ -21,6 +21,8 @@ public class BotMain {
 	public static Logger log = LoggerFactory.getLogger("main");
 	public static MainConfig cfg;
 	private static CommandRegistrar register;
+	
+	@CoverageIgnore
 	public static void main(String[] args) {
 		// Default config file creation
 		if(!new File("bot.properties").exists()) {
@@ -54,6 +56,7 @@ public class BotMain {
 		registerCommands();
 	}
 	
+	@CoverageIgnore
 	private static void registerCommands() {
 		// Ping
 		register.registerCommand(new PingCommand());
