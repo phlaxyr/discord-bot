@@ -20,7 +20,7 @@ public class TestPoll {
 		
 		// Write
 		PollFactory pf = new PollFactory();
-		pf.addPoll(new Poll("poll a", "<msgid>", new String[] {"option a", "option b", "option c"}));
+		pf.addPoll(new Poll(null, "poll a", "<msgid>", new String[] {"option a", "option b", "option c"}));
 		pf.addVoter("voter", 0, 2);
 		pf.save(pollsfile);
 		
@@ -32,23 +32,23 @@ public class TestPoll {
 	
 	@Test
 	public void testPollAdd() {
-		Poll p = new Poll("", "", new String[]{"option a", "option b", "option c"});
+		Poll p = new Poll(null, "", "", new String[]{"option a", "option b", "option c"});
 		
 		// add to choice a (one-based indexing)
-		p.addVoter("test", 1);
+		p.addVoter(0, "test", 1);
 		
 		assertTrue(p.getPollchoices()[0].alreadyVoted("test"));
 		assertFalse(p.getPollchoices()[1].alreadyVoted("test"));
 
 		// add to choce b (one-based indexing)
-		p.addVoter("test", 2);
+		p.addVoter(0, "test", 2);
 		
 		assertFalse(p.getPollchoices()[0].alreadyVoted("test"));
 		assertTrue(p.getPollchoices()[1].alreadyVoted("test"));
 
 		// add to choce b (one-based indexing)
 		// duplicate checking
-		p.addVoter("test", 2);
+		p.addVoter(0, "test", 2);
 		
 		assertFalse(p.getPollchoices()[0].alreadyVoted("test"));
 		assertTrue(p.getPollchoices()[1].alreadyVoted("test"));

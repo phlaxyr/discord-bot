@@ -44,10 +44,11 @@ public class PollFactory {
 		System.arraycopy(polls, 0, newpolls, 0, polls.length);
 		newpolls[polls.length] = p;
 		polls = newpolls;
+		p.refresh(polls.length - 1);
 	}
 	
 	public void addVoter(String voterid, int pollnum, int optionnum) {
-		polls[pollnum].addVoter(voterid, optionnum);;
+		polls[pollnum].addVoter(pollnum, voterid, optionnum);;
 	}
 	
 	// POJO stuff

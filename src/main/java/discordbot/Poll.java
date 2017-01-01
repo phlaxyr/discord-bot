@@ -1,5 +1,7 @@
 package discordbot;
 
+import net.dv8tion.jda.core.JDA;
+
 /**
  * A Bean for GSON
  * 
@@ -12,13 +14,16 @@ public class Poll {
 	private PollChoice[] pollchoices;
 	private String updmsgid;
 	
+	private transient JDA jda;
+	
 	public Poll() {
-		
+		jda = BotMain.jda;
 	}
 	
-	public Poll(String name, String updatemsgid, String[] choicenames) {
+	public Poll(JDA jda, String name, String updatemsgid, String[] choicenames) {
 		this.name = name;
 		this.updmsgid = updatemsgid;
+		this.jda = jda;
 		
 		// Populate pollchoices
 		pollchoices = new PollChoice[choicenames.length];
@@ -26,10 +31,9 @@ public class Poll {
 			String cname = choicenames[i];
 			pollchoices[i] = new PollChoice(cname);
 		}
-		
 	}
 	
-	public void addVoter(String playerid, int optionnum) {
+	public void addVoter(int pollnum, String playerid, int optionnum) {
 		if(optionnum > pollchoices.length || optionnum <= 0)
 			throw new ArrayIndexOutOfBoundsException("Invalid option number");
 		
@@ -40,12 +44,51 @@ public class Poll {
 		optionnum--;
 		
 		pollchoices[optionnum].addVoter(playerid);
+
+		BotMain.log.info(BotMain.cfg.pollsChannelID());
+		
+		refresh(pollnum);
+	}
+	
+	public void refresh(int pollnum) {
+		if(jda == null)
+			throw new AssertionError();
+		
+		jda.getTextChannelById(BotMain.cfg.pollsChannelID()).editMessageById(updmsgid, toString(pollnum)).queue();
+		
 	}
 	
 	public void removeAllVotesFor(String playerid) {
 		for(PollChoice p : pollchoices) {
 			p.removeVoter(playerid);
 		}
+	}
+	
+	public int getNumVotes() {
+		int total = 0;
+		
+		for(PollChoice choice : pollchoices) {
+			total += choice.getNumVoters();
+		}
+		
+		return total;
+	}
+	
+	public String toString(int pollnum) {
+		int total = getNumVotes();
+		
+		StringBuilder sb = new StringBuilder("Poll #" + pollnum + " - **" + name + "** (`" + (isopen ? "OPEN" : "CLOSED") + "`)\n```\n");
+		
+		int n = 0;
+		for(PollChoice choice : pollchoices) {
+			n++;
+			sb.append(choice.toString(n, total));
+			sb.append('\n');
+		}
+		
+		sb.append("```");
+		
+		return sb.toString();
 	}
 	
 	public String getName() {

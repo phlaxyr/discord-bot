@@ -7,11 +7,24 @@ import java.io.StringWriter;
 import java.util.Arrays;
 
 
+
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class MakepollCommand implements BotCommand {
 
 	PollFactory pf = new PollFactory();
+	
+	public MakepollCommand() {
+		if(new File("polls.json").exists())
+			try {
+				pf.load(new File("polls.json"));
+			} catch (JsonSyntaxException | JsonIOException | IOException e) {
+				e.printStackTrace();
+			}
+	}
 	
 	@Override
 	public String getCommand() {
@@ -29,7 +42,7 @@ public class MakepollCommand implements BotCommand {
 		
 		// Make message in poll channel
 		e.getJDA().getTextChannelById(BotMain.cfg.pollsChannelID()).sendMessage("placeholder").queue((m) -> {
-			pf.addPoll(new Poll(pollname, m.getId(), options));
+			pf.addPoll(new Poll(BotMain.jda, pollname, m.getId(), options));
 			
 			try {
 				pf.save(new File("polls.json"));

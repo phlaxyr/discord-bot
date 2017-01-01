@@ -71,4 +71,19 @@ public class PollChoice {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String toString(int optionnum, int totalvotes) {
+		final int width = 20;
+		StringBuilder sb = new StringBuilder(optionnum + ". " + name + " [");
+		double percent = totalvotes != 0 ? ((double)getNumVoters() / (double)totalvotes) : 0;
+		int num = (int) Math.round(percent * width);
+		for(int i = 0; i < num; i++)
+			sb.append("#");
+		for(int i = num; i < width; i++)
+			sb.append(" ");
+		
+		sb.append("] (" + getNumVoters() + " votes)");
+		
+		return sb.toString();
+	}
 }
