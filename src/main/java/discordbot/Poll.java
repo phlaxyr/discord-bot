@@ -45,14 +45,13 @@ public class Poll {
 		
 		pollchoices[optionnum].addVoter(playerid);
 
-		BotMain.log.info(BotMain.cfg.pollsChannelID());
-		
 		refresh(pollnum);
 	}
 	
 	public void refresh(int pollnum) {
+		// Probably in test
 		if(jda == null)
-			throw new AssertionError();
+			return;
 		
 		jda.getTextChannelById(BotMain.cfg.pollsChannelID()).editMessageById(updmsgid, toString(pollnum)).queue();
 		
